@@ -17,18 +17,16 @@
   tasks:
   - name: install http and haproxy
     yum: 
-      pkg={{ item }} 
+      pkg="{{ item }}"
       state=present
     with_items:
-      - httpie
       - haproxy
  
   - name: enable http and HAProxy
     service:
-      name={{ item }}
+      name="{{ item }}"
       state: started
     with_items:
-      - httpie
       - haproxy
       
   - name: configure haproxy
@@ -48,7 +46,7 @@
   tasks:
   - name: install tomcat
    yum: 
-      pkg={{ item }} 
+      pkg="{{ item }}"
       state=present
     with_items:
       - tomcat
@@ -56,7 +54,7 @@
       
   - name: enable tomcat and httpd at boot 
     service:
-      name={{ item }}
+      name="{{ item }}"
       enabled: yes
     with_items:
        - tomcat
@@ -75,7 +73,7 @@
 
   - name: start tomcat and httpd
     service:
-      name: {{ item }}
+      name="{{ item }}"
       state: started
     with_items:
       - tomcat
@@ -89,18 +87,17 @@
   - name: copy static index.html to tomcat webapps/ansible/index.html
     template:
       src: index.html.app1
-      dest: /usr/share/tomcat/webapps/ansible/index.html
+      dest: /usr/share/tomcat/webapps/ROOT/index.html
 
 - name: index.html on app 2
   hosts: app2
-  gather_facts: false
   become: true
 
   tasks:
   - name: copy static index.html to tomcat webapps/ansible/index.html
     template:
       src: index.html.app2
-      dest: /usr/share/tomcat/webapps/ansible/index.html
+      dest: /usr/share/tomcat/webapps/ROOT/index.html
 
 - name: deploy postgres
   hosts: appdbs
